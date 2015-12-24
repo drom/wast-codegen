@@ -1,0 +1,30 @@
+{
+  "name": "wast-codegen",
+  "version": "0.0.1",
+  "description": "WebAssembly code generator",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "eslint lib/*.js && mocha test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/drom/wast-codegen.git"
+  },
+  "keywords": [
+    "WebAssembly",
+    "wast",
+    "codegen"
+  ],
+  "author": "Aliaksei Chapyzhenka",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/drom/wast-codegen/issues"
+  },
+  "homepage": "https://github.com/drom/wast-codegen#readme",
+  "devDependencies": {
+    "chai": "^3.4.1",
+    "eslint": "^1.10.3",
+    "istanbul": "^0.4.1",
+    "mocha": "^2.3.4"
+  }
+}
