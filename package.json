@@ -4,7 +4,7 @@
   "description": "WebAssembly code generator",
   "main": "lib/index.js",
   "scripts": {
-    "test": "eslint lib/*.js && mocha test"
+    "test": "eslint lib/*.js test/*.js && mocha test"
   },
   "repository": {
     "type": "git",
