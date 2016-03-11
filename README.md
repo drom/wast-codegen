@@ -1,5 +1,7 @@
 # WebAssembly code generator
 
+Generates WebAssembly in S-expression form from ([AST](https://github.com/drom/wast-spec))
+
 ## Use
 
 ### Node.js
