@@ -13,14 +13,14 @@ describe('basic', function () {
                 kind: 'get_local',
                 id: {
                     kind: 'identifier',
-                    id: 'x'
+                    name: 'x'
                 }
             },
             right: {
                 kind: 'get_local',
                 id: {
                     kind: 'identifier',
-                    id: 'y'
+                    name: 'y'
                 }
             }
         })).to.eq('(i32.add (get_local $x) (get_local $y))');
