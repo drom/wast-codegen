@@ -22,7 +22,7 @@ describe('codegen', function () {
                         if (err) { throw err; }
                         ast = jsof.p(jsData);
                         var res = codegen.generate(ast);
-                        console.log(res);
+                        // console.log(res);
                         done();
                     }
                 );
