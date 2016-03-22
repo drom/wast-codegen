@@ -13,6 +13,11 @@ npm i wast-codegen --save
 var codegen = require('wast-codegen');
 ```
 
+### CLI
+First install globally `npm i wast-codegen   -g`
+Then invoke with an AST json file `wast-codegen <path/to/json/file>`  
+Alternatively you can use stdin `cat ast.json | wast-codegen`
+
 ## Functions
 
 ### .generate()
@@ -40,6 +45,7 @@ var src = codegen.generate({
 ```
 
 produces string `(i32.add (get_local $x) (get_local $y)`
+
 
 ## Testing
 
