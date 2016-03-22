@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 'use strict'
 
-const fs = require('fs')
 const gen = require('../')
 const filename = process.argv.splice(2)[0]
 
