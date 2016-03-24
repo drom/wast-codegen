@@ -24,8 +24,11 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "eslint": "^2.4.0",
+    "esotope": "^1.4.5",
+    "esprima": "^2.7.2",
     "istanbul": "^0.4.2",
     "jsof": "^0.2.1",
-    "mocha": "^2.4.5"
+    "mocha": "^2.4.5",
+    "wast-spec": "^0.2.0"
   }
 }
