@@ -1,7 +1,8 @@
 'use strict';
 
-var lib = require('../'),
-    expect = require('chai').expect;
+var lib = require('../');
+var parser = require('wast-parser')
+var expect = require('chai').expect;
 
 describe('basic', function () {
     it('t0', function (done) {
@@ -24,6 +25,15 @@ describe('basic', function () {
                 }
             }
         }, 2)).to.eq('(i32.add\n  (get_local\n    $x\n  )\n  (get_local\n    $y\n  )\n)');
+        done();
+    });
+
+    it('module', function (done) {
+        var wast = '(module)'
+        var json = parser.parse(wast);
+        var result = lib.generate(json);
+        console.log(result);
+        expect(result).to.eq(wast);
         done();
     });
 });
