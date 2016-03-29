@@ -5,10 +5,12 @@ var spec = require('wast-spec'),
     esprima = require('esprima'),
     esotope = require('esotope');
 
+// remove script
+delete spec.visitorKeys['script'];
+
 var unparented = {
     identifier: true,
     literal: true,
-    script: true,
     item: true
     // TODO add the rest
 };
@@ -19,7 +21,6 @@ var compositeName = {
     const: 'node.type + \'.const \' + node.init',
     identifier: '\'$\' + node.name',
     item: '(node.name ? \'$\' + node.name : \'\') + node.type',
-    script: '\'(; ;)\''
     // TODO add the rest
 };
 
@@ -80,19 +81,31 @@ function funcObject (obj) {
         var res, indent, spaceNum, spaceString;
         var exprGen = {};
         function gen (node, space) {
+            res = '';
             spaceString = ''
             spaceNum = space
-            for(var i=0; i<space; i++){
-              spaceString += ' '
-            }
-            res = '';
             if (space) {
+              for(var i=0; i<space; i++){
+                spaceString += ' '
+              }
               indent = '\\n';
             } else {
               indent = ''
             }
-            exprGen[node.kind](node);
-            // removes the leading newline
+
+            // remove script
+            if(node.kind === 'script'){
+              node.body.forEach(function(n){
+                exprGen[n.kind](n);
+              })
+            }else{
+              exprGen[node.kind](node);
+            }
+
+            // trims leadin newline
+            if (space) {
+              res = res.slice(1)
+            }
             return res;
         }
         exports.generate = gen;
