@@ -48,7 +48,7 @@ function bodyGen (obj, kind) {
         res.push(parse('res += ' + compositeName[kind]));
     }
     if (objKinds.length > 0) {
-        res.push(parse(`indent += '  '`));
+        res.push(parse(`indent += spaceString`));
         objKinds.forEach(function (key) {
             if (arrayKeys[key] === undefined) {
                 res.push(parse(
@@ -64,7 +64,7 @@ function bodyGen (obj, kind) {
                 ));
             }
         });
-        res.push(parse(`indent = indent.slice(0,-2)`));
+        res.push(parse(`indent = indent.slice(0,-spaceNum)`));
         if (unparented[kind] === undefined) {
             res.push(parse(`res += indent`));
         }
@@ -78,12 +78,24 @@ function bodyGen (obj, kind) {
 function funcObject (obj) {
     var res = esprima.parse(`
         'use strict';
-        var res, indent;
+        var res, indent, spaceNum, spaceString = '';
         var exprGen = {};
-        function gen (node) {
+        function gen (node, space) {
+            spaceNum = space
+            for(var i=0; i<space; i++){
+              spaceString += ' '
+            }
             res = '';
-            indent = '\\n';
+            if (space) {
+              indent = '\\n';
+            } else {
+              indent = ''
+            }
             exprGen[node.kind](node);
+            // removes the leading newline
+            if(space){
+              res = res.slice(1)
+            }
             return res;
         }
         exports.generate = gen;
