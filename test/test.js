@@ -11,9 +11,9 @@ var src = path.resolve(__dirname, '../wast-parser/results/');
 var astFileNames = fs.readdirSync(src);
 describe('codegen', function () {
 
-    var startT = process.hrtime()
+    var startT = process.hrtime();
     before(function() {
-      startT = process.hrtime()
+      startT = process.hrtime();
     });
 
     astFileNames.forEach(function (name) {
@@ -27,7 +27,7 @@ describe('codegen', function () {
                         if (err) { throw err; }
                         ast = jsof.p(jsData);
                         var res = codegen.generate(ast);
-                        // console.log(res + '\n\n');
+                        console.log(res + '\n\n');
                         done();
                     }
                 );
@@ -38,7 +38,7 @@ describe('codegen', function () {
     });
 
     after(function () {
-      var diff = process.hrtime(startT)
+      var diff = process.hrtime(startT);
       console.log('test took %d nanoseconds', diff[0] * 1e9 + diff[1]);
     });
 });
