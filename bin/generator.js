@@ -21,6 +21,7 @@ var compositeName = {
     const: 'node.type + \'.const \' + node.init',
     identifier: '\'$\' + node.name',
     item: '(node.name ? \'$\' + node.name : \'\') + node.type',
+    literal: '(node.value)'
     // TODO add the rest
 };
 
