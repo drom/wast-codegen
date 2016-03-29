@@ -23,7 +23,7 @@ describe('basic', function () {
                     name: 'y'
                 }
             }
-        })).to.eq('\n(i32.add\n  (get_local\n    $x\n  )\n  (get_local\n    $y\n  )\n)');
+        }, 2)).to.eq('(i32.add\n  (get_local\n    $x\n  )\n  (get_local\n    $y\n  )\n)');
         done();
     });
 });
