@@ -27,12 +27,11 @@ describe('basic', function () {
         }, 2);
 
         var expected =
-`i32.add
-  (get_local
-    ($x))
-  (get_local
-    ($y))`;
-            // console.log(generated)
+          `
+(i32.add
+  (get_local $x)
+  (get_local $y))`;
+
         expect(generated).to.eq(expected)
         done();
     });
@@ -42,15 +41,14 @@ describe('basic', function () {
         var json = parser.parse(wast);
         var result = lib.generate(json);
         // console.log(result);
-        expect(result).to.eq(wast);
+        expect(result).to.eq(' (; ;)' + wast);
         done();
     });
 
     it('param', function (done) {
-        var wast = '(module(func(param i32))(func(param i32)))';
+        var wast = ' (; ;)(module(func(param i32))(func(param i32)))';
         var json = parser.parse(wast);
-        var result = lib.generate(json, 2);
-        console.log(result)
+        var result = lib.generate(json);
         expect(result).to.eq(wast);
         done();
     });
