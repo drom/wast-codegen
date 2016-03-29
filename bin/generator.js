@@ -14,12 +14,17 @@ var unparented = {
 var compositeName = {
     binop: 'node.type + \'.\' + node.operator',
     cvtop: 'node.type + \'.\' + node.operator + \'/\' + node.type1',
-    const: 'node.type + \'.const\''
+    const: 'node.type + \'.const\'',
+    identifier: '\'$\' + node.name'
     // TODO add the rest
 };
 
 var arrayKeys = {
-    body: true
+    body: true,
+    params: true,
+    exprs: true,
+    items: true,
+    segment: true
 };
 
 function parse (str) {
@@ -73,10 +78,17 @@ function bodyGen (obj, kind) {
 
 function funcObject (obj) {
     var res = esprima.parse(`
-        var res = '';
-        exprGen = {};
+        'use strict';
+        var res;
+        var exprGen = {};
+        function gen (node) {
+            res = '';
+            exprGen[node.kind](node);
+            return res;
+        }
+        exports.generate = gen;
     `);
-    var body = res.body[1].expression.right.properties;
+    var body = res.body[2].declarations[0].init.properties;
     Object.keys(obj).forEach(function (kind) {
         body.push({
             type: 'Property',

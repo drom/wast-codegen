@@ -2,9 +2,10 @@
   "name": "wast-codegen",
   "version": "0.3.0",
   "description": "WebAssembly code generator",
-  "main": "lib/index.js",
+  "main": "index.js",
   "scripts": {
-    "test": "git submodule init && git submodule update --remote && git submodule status && eslint lib/*.js test/*.js && istanbul cover _mocha test"
+    "test": "git submodule init && git submodule update --remote && git submodule status && eslint lib/*.js test/*.js && istanbul cover _mocha test",
+    "prepublish": "node bin/generator.js > index.js"
   },
   "repository": {
     "type": "git",
@@ -31,6 +32,6 @@
     "mocha": "^2.4.5"
   },
   "dependencies": {
-    "wast-spec": "^0.4.0"
+    "wast-spec": "^0.8.0"
   }
 }

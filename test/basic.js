@@ -1,6 +1,6 @@
 'use strict';
 
-var lib = require('../lib'),
+var lib = require('../'),
     expect = require('chai').expect;
 
 describe('basic', function () {
