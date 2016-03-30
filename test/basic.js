@@ -134,8 +134,8 @@ describe('basic', function () {
         done();
     });
 
-    it.only('br_table', function (done) {
-      var wast =
+    it('br_table', function (done) {
+        var wast =
 `(module
   (func $stmt
     (param $i i32)

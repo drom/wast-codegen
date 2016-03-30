@@ -106,7 +106,7 @@ function funcObject (obj) {
               exprGen[node.kind](node);
             }
 
-            // trims leadin newline
+            // trims leading newline
             if (space) {
               res = res.slice(1)
             }
