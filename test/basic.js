@@ -75,4 +75,12 @@ describe('basic', function () {
         expect(result).to.eq(wast);
         done();
     });
+
+    it('result', function (done) {
+        var wast = `(module(func 0(result i32)(i32.const 1)))`;
+        var json = parser.parse(wast);
+        var result = lib.generate(json);
+        expect(result).to.eq(wast);
+        done();
+    });
 });

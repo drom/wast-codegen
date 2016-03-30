@@ -21,7 +21,8 @@ var compositeName = {
     const: 'node.type + \'.const \' + node.init',
     identifier: '\'$\' + node.name',
     item: '(node.name ? \'$\' + node.name : \'\') + node.type',
-    literal: `Number.isInteger(node.value) ? node.value : '"' + node.value + '"'`
+    literal: `Number.isInteger(node.value) ? node.value : '"' + node.value + '"'`,
+    result: `'result ' + node.type`
     // TODO add the rest
 };
 
