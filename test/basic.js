@@ -68,6 +68,11 @@ describe('basic', function () {
         var json = parser.parse(wast);
         var result = lib.generate(json);
         expect(result).to.eq(wast);
+
+        wast = `(module(import "test" "test"))`;
+        json = parser.parse(wast);
+        result = lib.generate(json);
+        expect(result).to.eq(wast);
         done();
     });
 });
