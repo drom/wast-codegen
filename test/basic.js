@@ -83,4 +83,12 @@ describe('basic', function () {
         expect(result).to.eq(wast);
         done();
     });
+
+    it('relop', function (done) {
+        var wast = '(module(func(i32.eq(i32.const 1)(i32.const 1))))';
+        var json = parser.parse(wast);
+        var result = lib.generate(json);
+        expect(result).to.eq(wast);
+        done();
+    });
 });
