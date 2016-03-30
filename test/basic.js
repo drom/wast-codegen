@@ -85,6 +85,15 @@ describe('basic', function () {
         done();
     });
 
+    it('param', function (done) {
+        var wast = `(module(func $test(param $i i32))(func(param i32)))`;
+        var json = parser.parse(wast);
+        var result = lib.generate(json);
+        expect(result).to.eq(wast);
+
+        done();
+    });
+
     it('result', function (done) {
         var wast = `(module(func 0(result i32)(i32.const 1)))`;
         var json = parser.parse(wast);
