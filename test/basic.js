@@ -14,14 +14,14 @@ describe('basic', function () {
                 kind: 'get_local',
                 id: {
                     kind: 'identifier',
-                    name: 'x'
+                    id: 'x'
                 }
             },
             right: {
                 kind: 'get_local',
                 id: {
                     kind: 'identifier',
-                    name: 'y'
+                    id: 'y'
                 }
             }
         }, 2);
@@ -73,6 +73,15 @@ describe('basic', function () {
         json = parser.parse(wast);
         result = lib.generate(json);
         expect(result).to.eq(wast);
+        done();
+    });
+
+    it('ident', function (done) {
+        var wast = `(module(func $test(param i32))(func(param i32)))`;
+        var json = parser.parse(wast);
+        var result = lib.generate(json);
+        expect(result).to.eq(wast);
+
         done();
     });
 
