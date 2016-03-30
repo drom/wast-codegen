@@ -32,7 +32,8 @@ var arrayKeys = {
     params: true,
     exprs: true,
     items: true,
-    segment: true
+    segment: true,
+    local: true
 };
 
 function parse (str) {
