@@ -5,21 +5,25 @@ var spec = require('wast-spec'),
     esprima = require('esprima'),
     esotope = require('esotope');
 
+// remove script
+delete spec.visitorKeys['script'];
+
 var unparented = {
     identifier: true,
     literal: true,
-    script: true,
     item: true
     // TODO add the rest
 };
 
 var compositeName = {
     binop: 'node.type + \'.\' + node.operator',
+    relop: 'node.type + \'.\' + node.operator',
     cvtop: 'node.type + \'.\' + node.operator + \'/\' + node.type1',
     const: 'node.type + \'.const \' + node.init',
     identifier: '\'$\' + node.name',
-    item: '(node.name ? \'$\' + node.name : \'\') + node.type',
-    script: '\'(; ;)\''
+    item: `(node.name ? \'$\' + node.name + ' ': '') + node.type`,
+    literal: `Number.isInteger(node.value) ? node.value : '"' + node.value + '"'`,
+    result: `'result ' + node.type`
     // TODO add the rest
 };
 
@@ -28,7 +32,8 @@ var arrayKeys = {
     params: true,
     exprs: true,
     items: true,
-    segment: true
+    segment: true,
+    local: true
 };
 
 function parse (str) {
@@ -38,9 +43,11 @@ function parse (str) {
 function bodyGen (obj, kind) {
     var objKinds = obj[kind],
         res = [];
-    res.push(parse(`res += indent`));
     if (unparented[kind] === undefined) {
+        res.push(parse(`res += indent`));
         res.push(parse(`res += '('`));
+    } else {
+        res.push(parse(`res += ' '`));
     }
     if (compositeName[kind] === undefined) {
         res.push(parse(`res += '${kind}'`));
@@ -65,9 +72,6 @@ function bodyGen (obj, kind) {
             }
         });
         res.push(parse(`indent = indent.slice(0,-spaceNum)`));
-        if (unparented[kind] === undefined) {
-            res.push(parse(`res += indent`));
-        }
     }
     if (unparented[kind] === undefined) {
         res.push(parse(`res += ')'`));
@@ -78,22 +82,32 @@ function bodyGen (obj, kind) {
 function funcObject (obj) {
     var res = esprima.parse(`
         'use strict';
-        var res, indent, spaceNum, spaceString = '';
+        var res, indent, spaceNum, spaceString;
         var exprGen = {};
         function gen (node, space) {
-            spaceNum = space
-            for(var i=0; i<space; i++){
-              spaceString += ' '
-            }
             res = '';
+            spaceString = ''
+            spaceNum = space
             if (space) {
+              for(var i=0; i<space; i++){
+                spaceString += ' '
+              }
               indent = '\\n';
             } else {
               indent = ''
             }
-            exprGen[node.kind](node);
-            // removes the leading newline
-            if(space){
+
+            // remove script
+            if(node.kind === 'script'){
+              node.body.forEach(function(n){
+                exprGen[n.kind](n);
+              })
+            }else{
+              exprGen[node.kind](node);
+            }
+
+            // trims leading newline
+            if (space) {
               res = res.slice(1)
             }
             return res;

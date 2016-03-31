@@ -1,11 +1,12 @@
 'use strict';
 
-var lib = require('../'),
-    expect = require('chai').expect;
+var lib = require('../');
+var parser = require('wast-parser');
+var expect = require('chai').expect;
 
 describe('basic', function () {
     it('t0', function (done) {
-        expect(lib.generate({
+        var generated = lib.generate({
             kind: 'binop',
             type: 'i32',
             operator: 'add',
@@ -23,7 +24,161 @@ describe('basic', function () {
                     name: 'y'
                 }
             }
-        }, 2)).to.eq('(i32.add\n  (get_local\n    $x\n  )\n  (get_local\n    $y\n  )\n)');
+        }, 2);
+
+        var expected =
+`(i32.add
+  (get_local $x)
+  (get_local $y))`;
+
+        expect(generated).to.eq(expected)
         done();
     });
+
+    it('module', function (done) {
+        var wast = '(module)';
+        var json = parser.parse(wast);
+        var result = lib.generate(json);
+        // console.log(result);
+        expect(result).to.eq(wast);
+        done();
+    });
+
+    it('param', function (done) {
+        var wast = `(module(func(param i32))(func(param i32)))`;
+        var json = parser.parse(wast);
+        var result = lib.generate(json);
+        expect(result).to.eq(wast);
+
+        wast =
+`(module
+  (func
+    (param i32))
+  (func
+    (param i32)))`;
+
+        var json = parser.parse(wast);
+        var result = lib.generate(json, 2);
+        expect(result).to.eq(wast);
+        done();
+    });
+
+    it('literal', function (done) {
+        var wast = `(module(func 0(param i32))(func(param i32)))`;
+        var json = parser.parse(wast);
+        var result = lib.generate(json);
+        expect(result).to.eq(wast);
+
+        wast = `(module(import "test" "test"))`;
+        json = parser.parse(wast);
+        result = lib.generate(json);
+        expect(result).to.eq(wast);
+        done();
+    });
+
+    it('ident', function (done) {
+        var wast = `(module(func $test(param i32))(func(param i32)))`;
+        var json = parser.parse(wast);
+        var result = lib.generate(json);
+        expect(result).to.eq(wast);
+
+        done();
+    });
+
+    it('param', function (done) {
+        var wast = `(module(func $test(param $i i32))(func(param i32)))`;
+        var json = parser.parse(wast);
+        var result = lib.generate(json);
+        expect(result).to.eq(wast);
+
+        done();
+    });
+
+    it('result', function (done) {
+        var wast = `(module(func 0(result i32)(i32.const 1)))`;
+        var json = parser.parse(wast);
+        var result = lib.generate(json);
+        expect(result).to.eq(wast);
+        done();
+    });
+
+    it('relop', function (done) {
+        var wast = '(module(func(i32.eq(i32.const 1)(i32.const 1))))';
+        var json = parser.parse(wast);
+        var result = lib.generate(json);
+        expect(result).to.eq(wast);
+        done();
+    });
+
+    it('blocks', function (done){
+        var wast =
+`(module
+  (func
+    (block $switch)))`
+
+        var json = parser.parse(wast);
+        var result = lib.generate(json, 2);
+        expect(result).to.eq(wast);
+        done();
+    });
+
+    it('locals', function (done){
+        var wast =
+`(module
+  (func
+    (local $j i32)))`
+
+        var json = parser.parse(wast);
+        var result = lib.generate(json, 2);
+        expect(result).to.eq(wast);
+        done();
+    });
+
+    it('br_table', function (done) {
+        var wast =
+`(module
+  (func $stmt
+    (param $i i32)
+    (result i32)
+    (local $j i32)
+    (set_local $j
+      (i32.const 100))
+    (block $switch
+      (block $7
+        (block $default
+          (block $6
+            (block $5
+              (block $4
+                (block $3
+                  (block $2
+                    (block $1
+                      (block $0
+                        (br_table $0 $1 $2 $3 $4 $5 $6 $7 $default
+                          (get_local $i)))
+                      (return
+                        (get_local $i)))
+                    (nop)))
+                (set_local $j
+                  (i32.sub
+                    (i32.const 0)
+                    (get_local $i)))
+                (br $switch))
+              (br $switch))
+            (set_local $j
+              (i32.const 101))
+            (br $switch))
+          (set_local $j
+            (i32.const 101)))
+        (set_local $j
+          (i32.const 102))))
+    (return
+      (get_local $j))))`
+
+        var json = parser.parse(wast);
+        var result = lib.generate(json, 2);
+        expect(result).to.eq(wast);
+        done();
+    });
+
 });
+
