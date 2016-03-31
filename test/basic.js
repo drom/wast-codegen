@@ -31,7 +31,7 @@ describe('basic', function () {
   (get_local $x)
   (get_local $y))`;
 
-        expect(generated).to.eq(expected)
+        expect(generated).to.eq(expected);
         done();
     });
 
@@ -45,7 +45,7 @@ describe('basic', function () {
     });
 
     it('param', function (done) {
-        var wast = `(module(func(param i32))(func(param i32)))`;
+        var wast = '(module(func(param i32))(func(param i32)))';
         var json = parser.parse(wast);
         var result = lib.generate(json);
         expect(result).to.eq(wast);
@@ -64,12 +64,12 @@ describe('basic', function () {
     });
 
     it('literal', function (done) {
-        var wast = `(module(func 0(param i32))(func(param i32)))`;
+        var wast = '(module(func 0(param i32))(func(param i32)))';
         var json = parser.parse(wast);
         var result = lib.generate(json);
         expect(result).to.eq(wast);
 
-        wast = `(module(import "test" "test"))`;
+        wast = '(module(import "test" "test"))';
         json = parser.parse(wast);
         result = lib.generate(json);
         expect(result).to.eq(wast);
@@ -77,7 +77,7 @@ describe('basic', function () {
     });
 
     it('ident', function (done) {
-        var wast = `(module(func $test(param i32))(func(param i32)))`;
+        var wast = '(module(func $test(param i32))(func(param i32)))';
         var json = parser.parse(wast);
         var result = lib.generate(json);
         expect(result).to.eq(wast);
@@ -86,7 +86,7 @@ describe('basic', function () {
     });
 
     it('param', function (done) {
-        var wast = `(module(func $test(param $i i32))(func(param i32)))`;
+        var wast = '(module(func $test(param $i i32))(func(param i32)))';
         var json = parser.parse(wast);
         var result = lib.generate(json);
         expect(result).to.eq(wast);
@@ -95,7 +95,7 @@ describe('basic', function () {
     });
 
     it('result', function (done) {
-        var wast = `(module(func 0(result i32)(i32.const 1)))`;
+        var wast = '(module(func 0(result i32)(i32.const 1)))';
         var json = parser.parse(wast);
         var result = lib.generate(json);
         expect(result).to.eq(wast);
@@ -114,7 +114,7 @@ describe('basic', function () {
         var wast =
 `(module
   (func
-    (block $switch)))`
+    (block $switch)))`;
 
         var json = parser.parse(wast);
         var result = lib.generate(json, 2);
@@ -126,7 +126,7 @@ describe('basic', function () {
         var wast =
 `(module
   (func
-    (local $j i32)))`
+    (local $j i32)))`;
 
         var json = parser.parse(wast);
         var result = lib.generate(json, 2);
@@ -172,7 +172,7 @@ describe('basic', function () {
         (set_local $j
           (i32.const 102))))
     (return
-      (get_local $j))))`
+      (get_local $j))))`;
 
         var json = parser.parse(wast);
         var result = lib.generate(json, 2);
@@ -181,4 +181,3 @@ describe('basic', function () {
     });
 
 });
-
