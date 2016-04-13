@@ -1,3 +1,7 @@
+[![NPM version](https://img.shields.io/npm/v/wast-codegen.svg)](https://www.npmjs.org/package/wast-codegen)
+[![Travis](https://travis-ci.org/drom/wast-codegen.svg)](https://travis-ci.org/drom/wast-codegen)
+[![appVeyor](https://ci.appveyor.com/api/projects/status/l3ijsytrhmf42k6o?svg=true)](https://ci.appveyor.com/project/drom/wast-codegen)
+
 # WebAssembly code generator
 
 Generates S-expression WebAssembly from ([AST](https://github.com/drom/wast-spec))
