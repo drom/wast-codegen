@@ -49,3 +49,4 @@ npm test
 
 ## License
 MIT [LICENSE](https://github.com/drom/wast-codegen/blob/master/LICENSE).
+
