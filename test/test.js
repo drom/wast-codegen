@@ -27,7 +27,7 @@ describe('codegen', function () {
                         if (err) { throw err; }
                         ast = jsof.p(jsData);
                         var res = codegen.generate(ast);
-                        console.log(res + '\n\n');
+                        // console.log(res + '\n\n');
                         done();
                     }
                 );
