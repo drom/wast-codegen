@@ -33,9 +33,9 @@
     "istanbul": "^0.4.2",
     "jsof": "^0.2.1",
     "mocha": "^2.4.5",
-    "wast-parser": "^0.18.3"
+    "wast-parser": "^0.20.3"
   },
   "dependencies": {
-    "wast-spec": "^0.9.2"
+    "wast-spec": "^0.11.0"
   }
 }
