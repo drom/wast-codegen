@@ -27,13 +27,14 @@
   "homepage": "https://github.com/drom/wast-codegen#readme",
   "devDependencies": {
     "chai": "^3.5.0",
-    "eslint": "^2.5.3",
+    "eslint": "^2.13.1",
     "esotope": "^1.4.5",
     "esprima": "^2.7.2",
-    "istanbul": "^0.4.2",
+    "istanbul": "^0.4.4",
     "jsof": "^0.2.1",
-    "mocha": "^2.4.5",
-    "wast-parser": "^0.20.3"
+    "mocha": "^2.5.3",
+    "wast-parser": "^0.22.0",
+    "wast-spec": "^0.12.0"
   },
   "dependencies": {
     "wast-spec": "^0.11.0"
