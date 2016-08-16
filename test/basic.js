@@ -180,4 +180,12 @@ describe('basic', function () {
         done();
     });
 
+    it('memory1', function (done) {
+        var wast = '(export "memory" memory)';
+        var json = parser.parse(wast);
+        var result = lib.generate(json, 2);
+        expect(result).to.eq(wast);
+        done();
+    });
+
 });
