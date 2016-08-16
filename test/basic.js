@@ -204,4 +204,13 @@ describe('basic', function () {
         done();
     });
 
+    it('store offset alight #16', function (done) {
+        var wast = `(i64.store offset=8 align=4
+  (get_local $0) (i64.const 1))`;
+        var json = parser.parse(wast);
+        var result = lib.generate(json, 2);
+        expect(result).to.eq(wast);
+        done();
+    });
+
 });
