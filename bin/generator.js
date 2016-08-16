@@ -16,6 +16,7 @@ var unparented = {
 };
 
 var compositeName = {
+    unop:  'node.type + \'.\' + node.operator',
     binop: 'node.type + \'.\' + node.operator',
     relop: 'node.type + \'.\' + node.operator',
     cvtop: 'node.type + \'.\' + node.operator + \'/\' + node.type1',

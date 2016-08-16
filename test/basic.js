@@ -213,4 +213,13 @@ describe('basic', function () {
         done();
     });
 
+    it('unop / eqz #14', function (done) {
+        var wast = `(i32.eqz
+  (i32.const 1))`;
+        var json = parser.parse(wast);
+        var result = lib.generate(json, 2);
+        expect(result).to.eq(wast);
+        done();
+    });
+
 });
