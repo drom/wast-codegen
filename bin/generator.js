@@ -22,7 +22,7 @@ var compositeName = {
     cvtop: 'node.type + \'.\' + node.operator + \'/\' + node.type1',
     const: 'node.type + \'.const \' + node.init',
     load:  'node.type + \'.load \'',
-    store: 'node.type + \'.store \'',
+    store: 'node.type + \'.store\' + (node.offset ? (\' offset=\' + node.offset) : \'\') + (node.align ? (\' align=\' + node.align) : \'\')\n',
     identifier: '\'$\' + node.name',
     item: `(node.name ? \'$\' + node.name + ' ': '') + node.type`,
     literal: `Number.isInteger(node.value) ? node.value : '"' + node.value + '"'`,
