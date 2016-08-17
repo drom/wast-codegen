@@ -4,6 +4,12 @@ var lib = require('../');
 var parser = require('wast-parser');
 var expect = require('chai').expect;
 
+function checker (wast, indent) {
+    var json = parser.parse(wast);
+    var result = lib.generate(json, indent);
+    expect(result).to.eq(wast);
+}
+
 describe('basic', function () {
     it('t0', function (done) {
         var generated = lib.generate({
@@ -36,106 +42,65 @@ describe('basic', function () {
     });
 
     it('module', function (done) {
-        var wast = '(module)';
-        var json = parser.parse(wast);
-        var result = lib.generate(json);
-        // console.log(result);
-        expect(result).to.eq(wast);
+        checker('(module)');
         done();
     });
 
     it('param', function (done) {
-        var wast = '(module(func(param i32))(func(param i32)))';
-        var json = parser.parse(wast);
-        var result = lib.generate(json);
-        expect(result).to.eq(wast);
-
-        wast =
+        checker('(module(func(param i32))(func(param i32)))');
+        checker(
 `(module
   (func
     (param i32))
   (func
-    (param i32)))`;
-
-        var json = parser.parse(wast);
-        var result = lib.generate(json, 2);
-        expect(result).to.eq(wast);
+    (param i32)))`, 2);
         done();
     });
 
     it('literal', function (done) {
-        var wast = '(module(func 0(param i32))(func(param i32)))';
-        var json = parser.parse(wast);
-        var result = lib.generate(json);
-        expect(result).to.eq(wast);
-
-        wast = '(module(import "test" "test"))';
-        json = parser.parse(wast);
-        result = lib.generate(json);
-        expect(result).to.eq(wast);
+        checker('(module(func 0(param i32))(func(param i32)))');
+        checker('(module(import "test" "test"))');
         done();
     });
 
     it('ident', function (done) {
-        var wast = '(module(func $test(param i32))(func(param i32)))';
-        var json = parser.parse(wast);
-        var result = lib.generate(json);
-        expect(result).to.eq(wast);
-
+        checker('(module(func $test(param i32))(func(param i32)))');
         done();
     });
 
     it('param', function (done) {
-        var wast = '(module(func $test(param $i i32))(func(param i32)))';
-        var json = parser.parse(wast);
-        var result = lib.generate(json);
-        expect(result).to.eq(wast);
-
+        checker('(module(func $test(param $i i32))(func(param i32)))');
         done();
     });
 
     it('result', function (done) {
-        var wast = '(module(func 0(result i32)(i32.const 1)))';
-        var json = parser.parse(wast);
-        var result = lib.generate(json);
-        expect(result).to.eq(wast);
+        checker('(module(func 0(result i32)(i32.const 1)))');
         done();
     });
 
     it('relop', function (done) {
-        var wast = '(module(func(i32.eq(i32.const 1)(i32.const 1))))';
-        var json = parser.parse(wast);
-        var result = lib.generate(json);
-        expect(result).to.eq(wast);
+        checker('(module(func(i32.eq(i32.const 1)(i32.const 1))))');
         done();
     });
 
     it('blocks', function (done){
-        var wast =
+        checker(
 `(module
   (func
-    (block $switch)))`;
-
-        var json = parser.parse(wast);
-        var result = lib.generate(json, 2);
-        expect(result).to.eq(wast);
+    (block $switch)))`, 2);
         done();
     });
 
     it('locals', function (done){
-        var wast =
+        checker(
 `(module
   (func
-    (local $j i32)))`;
-
-        var json = parser.parse(wast);
-        var result = lib.generate(json, 2);
-        expect(result).to.eq(wast);
+    (local $j i32)))`, 2);
         done();
     });
 
     it('br_table', function (done) {
-        var wast =
+        checker(
 `(module
   (func $stmt
     (param $i i32)
@@ -172,55 +137,48 @@ describe('basic', function () {
         (set_local $j
           (i32.const 102))))
     (return
-      (get_local $j))))`;
-
-        var json = parser.parse(wast);
-        var result = lib.generate(json, 2);
-        expect(result).to.eq(wast);
+      (get_local $j))))`, 2);
         done();
     });
 
     it('export1', function (done) {
-        var wast = '(export "memory" memory)';
-        var json = parser.parse(wast);
-        var result = lib.generate(json, 2);
-        expect(result).to.eq(wast);
+        checker('(export "memory" memory)');
         done();
     });
 
     it('memory1', function (done) {
-        var wast = '(memory 1)';
-        var json = parser.parse(wast);
-        var result = lib.generate(json, 2);
-        expect(result).to.eq(wast);
+        checker('(memory 1)');
         done();
     });
 
     it('memory18', function (done) {
-        var wast = '(memory 1 8)';
-        var json = parser.parse(wast);
-        var result = lib.generate(json, 2);
-        expect(result).to.eq(wast);
+        checker('(memory 1 8)');
         done();
     });
 
     it('store offset alight #16', function (done) {
-        var wast = `(i64.store offset=8 align=4
+        checker(
+`(i64.store offset=8 align=4
   (get_local $0)
-  (i64.const 1))`;
-        var json = parser.parse(wast);
-        var result = lib.generate(json, 2);
-        expect(result).to.eq(wast);
+  (i64.const 1))`, 2);
         done();
     });
 
     it('unop / eqz #14', function (done) {
-        var wast = `(i32.eqz
-  (i32.const 1))`;
-        var json = parser.parse(wast);
-        var result = lib.generate(json, 2);
-        expect(result).to.eq(wast);
+        checker(`(i32.eqz
+  (i32.const 1))`, 2);
         done();
     });
 
+    it('unop / eqz #14', function (done) {
+        checker(
+`(i32.eqz
+  (i32.const 1))`, 2);
+        done();
+    });
+
+    it('function with type #20', function (done) {
+        checker('(func $func1(type $type1)(param i32)(result i32))');
+        done();
+    });
 });

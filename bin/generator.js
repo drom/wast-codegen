@@ -16,17 +16,24 @@ var unparented = {
 };
 
 var compositeName = {
-    unop:  'node.type + \'.\' + node.operator',
-    binop: 'node.type + \'.\' + node.operator',
-    relop: 'node.type + \'.\' + node.operator',
-    cvtop: 'node.type + \'.\' + node.operator + \'/\' + node.type1',
-    const: 'node.type + \'.const \' + node.init',
-    load:  'node.type + \'.load \'',
-    store: 'node.type + \'.store\' + (node.offset ? (\' offset=\' + node.offset) : \'\') + (node.align ? (\' align=\' + node.align) : \'\')\n',
-    identifier: '\'$\' + node.name',
-    item: `(node.name ? \'$\' + node.name + ' ': '') + node.type`,
-    literal: `Number.isInteger(node.value) ? node.value : '"' + node.value + '"'`,
-    result: `'result ' + node.type`
+    unop:  "node.type + '.' + node.operator",
+    binop: "node.type + '.' + node.operator",
+    relop: "node.type + '.' + node.operator",
+    cvtop: "node.type + '.' + node.operator + '/' + node.type1",
+    const: "node.type + '.const ' + node.init",
+    load:  "node.type + '.load '",
+    store: `node.type
+        + '.store'
+        + (node.offset ? (' offset=' + node.offset) : '')
+        + (node.align ? (' align=' + node.align) : '')`,
+    identifier: "'$' + node.name",
+    item: "(node.name ? '$' + node.name + ' ': '') + node.type",
+
+    literal: `Number.isInteger(node.value)
+        ? node.value
+        : ('"' + node.value + '"')`,
+
+    result: "'result ' + node.type"
     // TODO add the rest
 };
 
@@ -47,18 +54,18 @@ function bodyGen (obj, kind) {
     var objKinds = obj[kind],
         res = [];
     if (unparented[kind] === undefined) {
-        res.push(parse(`res += indent`));
-        res.push(parse(`res += '('`));
+        res.push(parse("res += indent"));
+        res.push(parse("res += '('"));
     } else {
-        res.push(parse(`res += ' '`));
+        res.push(parse("res += ' '"));
     }
     if (compositeName[kind] === undefined) {
         res.push(parse(`res += '${kind}'`));
     } else {
-        res.push(parse('res += ' + compositeName[kind]));
+        res.push(parse(`res += ${compositeName[kind]}`));
     }
     if (objKinds.length > 0) {
-        res.push(parse(`indent += spaceString`));
+        res.push(parse("indent += spaceString"));
         objKinds.forEach(function (key) {
             if (arrayKeys[key] === undefined) {
                 res.push(parse(
@@ -74,10 +81,10 @@ function bodyGen (obj, kind) {
                 ));
             }
         });
-        res.push(parse(`indent = indent.slice(0,-spaceNum)`));
+        res.push(parse("indent = indent.slice(0,-spaceNum)"));
     }
     if (unparented[kind] === undefined) {
-        res.push(parse(`res += ')'`));
+        res.push(parse("res += ')'"));
     }
     return res;
 }
@@ -137,3 +144,4 @@ function funcObject (obj) {
 }
 
 console.log(esotope.generate(funcObject(spec.visitorKeys)));
+/* eslint quotes: 0 */

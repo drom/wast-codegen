@@ -26,7 +26,8 @@ describe('codegen', function () {
                         var ast;
                         if (err) { throw err; }
                         ast = jsof.p(jsData);
-                        var res = codegen.generate(ast);
+                        codegen.generate(ast);
+                        // var res = codegen.generate(ast);
                         // console.log(res + '\n\n');
                         done();
                     }
@@ -42,4 +43,3 @@ describe('codegen', function () {
       console.log('test took %d nanoseconds', diff[0] * 1e9 + diff[1]);
     });
 });
-

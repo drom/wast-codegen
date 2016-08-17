@@ -4,7 +4,7 @@
   "description": "WebAssembly code generator",
   "main": "index.js",
   "scripts": {
-    "test": "git submodule init && git submodule update --remote && git submodule status && eslint lib/*.js test/*.js && istanbul cover ./node_modules/mocha/bin/_mocha",
+    "test": "git submodule init && git submodule update --remote && git submodule status && eslint bin/*.js test/*.js && istanbul cover ./node_modules/mocha/bin/_mocha",
     "prepublish": "node bin/generator.js > index.js"
   },
   "repository": {
@@ -36,6 +36,6 @@
     "wast-parser": "^0.22.0"
   },
   "dependencies": {
-    "wast-spec": "^0.12.0"
+    "wast-spec": "^0.13.0"
   }
 }
