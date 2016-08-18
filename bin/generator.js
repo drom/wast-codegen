@@ -31,7 +31,7 @@ var compositeName = {
 
     literal: `Number.isInteger(node.value)
         ? node.value
-        : ('"' + node.value + '"')`,
+        : (node.bare ? node.value : ('"' + node.value + '"'))`,
 
     result: "'result ' + node.type"
     // TODO add the rest
