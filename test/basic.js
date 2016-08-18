@@ -177,6 +177,16 @@ describe('basic', function () {
         done();
     });
 
+    it('loops are not correctly processed #19', function (done) {
+        checker(
+`(loop $done $loop
+  (if
+    (i32.const 1)
+    (br $done))
+  (br $loop))`, 2);
+        done();
+    });
+
     it('function with type #20', function (done) {
         checker('(func $func1(type $type1)(param i32)(result i32))');
         done();
