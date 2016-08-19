@@ -156,6 +156,18 @@ describe('basic', function () {
         done();
     });
 
+    it('unop / eqz #14', function (done) {
+        checker(
+`(i32.eqz
+  (i32.const 1))`, 2);
+        done();
+    });
+
+    // it('memory segment offsets not supported #15', function (done) {
+    //     checker('(segment 272 "\\80\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00\\00")');
+    //     done();
+    // });
+
     it('store offset alight #16', function (done) {
         checker(
 `(i64.store offset=8 align=4
@@ -164,18 +176,6 @@ describe('basic', function () {
         done();
     });
 
-    it('unop / eqz #14', function (done) {
-        checker(`(i32.eqz
-  (i32.const 1))`, 2);
-        done();
-    });
-
-    it('unop / eqz #14', function (done) {
-        checker(
-`(i32.eqz
-  (i32.const 1))`, 2);
-        done();
-    });
 
     it('loops are not correctly processed #19', function (done) {
         checker(
@@ -191,4 +191,70 @@ describe('basic', function () {
         checker('(func $func1(type $type1)(param i32)(result i32))');
         done();
     });
+
+    it('size modifiers of load/store operations are ignored #23', function (done) {
+
+        checker(`(module
+  (func $foo
+    (param i32)
+    (result i32)
+    (i32.load8_s
+      (i32.const 42))
+    (i32.load8_u
+      (i32.const 42))
+    (i32.load16_s
+      (i32.const 42))
+    (i32.load16_u
+      (i32.const 42))
+    (i64.load8_s
+      (i64.const 42))
+    (i64.load8_u
+      (i64.const 42))
+    (i64.load16_s
+      (i64.const 42))
+    (i64.load16_u
+      (i64.const 42))
+    (i64.load32_s
+      (i64.const 42))
+    (i64.load32_u
+      (i64.const 42))
+    (i32.load
+      (i32.const 42))
+    (i64.load
+      (i64.const 42))
+    (f32.load
+      (f32.const 42))
+    (f64.load
+      (f64.const 42))
+    (i32.store8
+      (i32.const 42)
+      (i32.const 42))
+    (i32.store16
+      (i32.const 42)
+      (i32.const 42))
+    (i64.store8
+      (i32.const 42)
+      (i64.const 42))
+    (i64.store16
+      (i32.const 42)
+      (i64.const 42))
+    (i64.store32
+      (i32.const 42)
+      (i32.const 42))
+    (i32.store
+      (i32.const 42)
+      (i32.const 42))
+    (i64.store
+      (i32.const 42)
+      (i64.const 42))
+    (f32.store
+      (i32.const 42)
+      (f32.const 42))
+    (f64.store
+      (i32.const 42)
+      (f64.const 42))
+    (nop)))`, 2);
+        done();
+    });
+
 });

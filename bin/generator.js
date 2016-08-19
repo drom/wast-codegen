@@ -15,18 +15,31 @@ var unparented = {
     // TODO add the rest
 };
 
+var type_operator = "node.type + '.' + node.operator";
+
 var compositeName = {
-    unop:  "node.type + '.' + node.operator",
-    binop: "node.type + '.' + node.operator",
-    relop: "node.type + '.' + node.operator",
-    cvtop: "node.type + '.' + node.operator + '/' + node.type1",
+    unop:  type_operator,
+    binop: type_operator,
+    relop: type_operator,
+    cvtop: type_operator + " + '/' + node.type1",
     const: "node.type + '.const ' + node.init",
-    load:  "node.type + '.load '",
+
+    load:  `node.type
+        + '.load'
+        + (node.size || '')
+        + ((node.sign === true)  ? '_s' : '')
+        + ((node.sign === false) ? '_u' : '')
+        `,
+
     store: `node.type
         + '.store'
+        + (node.size || '')
         + (node.offset ? (' offset=' + node.offset) : '')
-        + (node.align ? (' align=' + node.align) : '')`,
+        + (node.align ? (' align=' + node.align) : '')
+        `,
+
     identifier: "'$' + node.name",
+
     item: "(node.name ? '$' + node.name + ' ': '') + node.type",
 
     literal: `Number.isInteger(node.value)
