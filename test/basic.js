@@ -170,9 +170,27 @@ describe('basic', function () {
 
     it('store offset alight #16', function (done) {
         checker(
-`(i64.store offset=8 align=4
+`(i64.store
   (get_local $0)
-  (i64.const 1))`, 2);
+  (i64.const 1))
+(i64.store offset=123
+  (get_local $0)
+  (i64.const 1))
+(i64.store align=456
+  (get_local $0)
+  (i64.const 1))
+(i64.store offset=123 align=456
+  (get_local $0)
+  (i64.const 1))
+(i64.load
+  (get_local $0))
+(i64.load offset=123
+  (get_local $0))
+(i64.load align=456
+  (get_local $0))
+(i64.load offset=123 align=456
+  (get_local $0))
+(nop)`, 2);
         done();
     });
 

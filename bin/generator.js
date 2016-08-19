@@ -29,6 +29,8 @@ var compositeName = {
         + (node.size || '')
         + ((node.sign === true)  ? '_s' : '')
         + ((node.sign === false) ? '_u' : '')
+        + (node.offset ? (' offset=' + node.offset) : '')
+        + (node.align ? (' align=' + node.align) : '')
         `,
 
     store: `node.type
