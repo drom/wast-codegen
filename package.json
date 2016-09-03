@@ -29,10 +29,10 @@
     "chai": "^3.5.0",
     "eslint": "^2.13.1",
     "esotope": "^1.4.5",
-    "esprima": "^2.7.2",
-    "istanbul": "^0.4.4",
+    "esprima": "^2.7.3",
+    "istanbul": "^0.4.5",
     "jsof": "^0.2.1",
-    "mocha": "^2.5.3",
+    "mocha": "^3.0.2",
     "wast-parser": "^0.24.0"
   },
   "dependencies": {
